@@ -1,0 +1,11 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<ul>
+{% for customer in customers %}
+<li> {{customer.first_name | title }}  {{customer.last_name | title }} 
+	<a href='{% url "customers:customer_update" customer.id %}'> update </a>
+</li>
+{% endfor %}
+</ul>
+{% endblock content %}
