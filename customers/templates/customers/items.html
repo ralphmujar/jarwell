@@ -1,0 +1,13 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+<ul>
+{% for item in items %}
+<li>
+	<code>
+	{{item.name | title }}  {{ item.size }} {{ item.price }} 
+	</code>
+</li>
+{% endfor %}
+</ul>
+{% endblock content %}
