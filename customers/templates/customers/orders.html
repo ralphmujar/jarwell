@@ -1,0 +1,77 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+{% load humanize %}
+<div class="content-wrap">
+	<div class='main'>
+	    <div class="page-header">
+		<div class="page-title">
+			<h1> Orders </h1>
+		</div>
+	    </div>
+
+		<div class='containera-fluid'>
+			<section id='main-content'>
+
+				<div class='card'>
+					<div class='card-body'>
+						<div class='table-responsive'>
+
+							<p>
+							<a href='{% url "customers:order_create" %}'>
+							<input type='button' id='checkout_btn' value='Create New Order' />
+							</a>
+							</p>
+
+							<table class='table table-hover' id='myTable'>
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Customer</th>
+										<th>Item</th>
+										<th>Quantity</th>
+										<th>Shipping Fee</th>
+										<th>Total</th>
+										<th></th>
+
+									</tr>	
+								</thead>
+								<tbody> 
+									{% for order in orders %}
+									<tr>
+										<td>{{ order.date }} </td>
+										<td>{{ order.customer | title }}</td>
+										<td>{{ order.item | title }}</td>
+										<td> {{ order.qty }}</td>
+										<td> {{ order.shipping_fee| intcomma }}</td>
+										<td> PHP {{ order.total_price | intcomma }}</td>
+										<td>
+											<a href='{% url "customers:order_update" order.id %}'>
+											<i class='ti-pencil'></i>
+											</a>
+										</td>
+
+									</tr>
+									{% endfor %}
+								
+								</tbody>
+
+							</table>
+
+
+						</div>	
+					</div>
+				</div>
+
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
+
+{% endblock content %}
+
+
+

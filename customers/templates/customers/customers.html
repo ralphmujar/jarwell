@@ -1,11 +1,70 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<ul>
-{% for customer in customers %}
-<li> {{customer.first_name | title }}  {{customer.last_name | title }} 
-	<a href='{% url "customers:customer_update" customer.id %}'> update </a>
-</li>
-{% endfor %}
-</ul>
+<div class="content-wrap">
+	<div class='main'>
+	    <div class="page-header">
+		<div class="page-title">
+			<h1> Customers </h1>
+		</div>
+	    </div>
+
+		<div class='containera-fluid'>
+			<section id='main-content'>
+
+				<div class='card'>
+					<div class='card-body'>
+						<div class='table-responsive'>
+
+							<p>
+							<a href='{% url "customers:customer_create" %}'>
+							<input type='button' id='checkout_btn' value='Create New Customer' />
+							</a>
+							</p>
+
+							<table class='table table-hover' id='myTable'>
+								<thead>
+									<tr>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Address</th>
+										<th>Contact</th>
+										<th></th>
+
+									</tr>	
+								</thead>
+								<tbody> 
+									{% for customer in customers %}
+									<tr>
+										<td>{{ customer.first_name | title }}</td>
+										<td>{{ customer.last_name | title }}</td>
+										<td>{{ customer.address| title }}</td>
+										<td>{{ customer.contact }}</td>
+										<td>
+											<a href='{% url "customers:customer_update" customer.id %}'>
+											<i class='ti-pencil'></i>
+											</a>
+										</td>
+
+									</tr>
+									{% endfor %}
+								
+								</tbody>
+
+							</table>
+
+
+						</div>	
+					</div>
+				</div>
+
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
+
 {% endblock content %}
+

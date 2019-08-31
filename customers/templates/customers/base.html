@@ -1,8 +1,301 @@
-<ul>
-	<li> <a href='{% url "customers:customer_create" %}'>Create Customer</a> </li>
-	<li> <a href='{% url "customers:item_create" %}'>Create Item</a> </li>
-	<li> <a href='{% url "logout" %}'>Logout</a> </li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-{% endblock content %}
+    <head>
+        <meta charset="utf-8">
+        <meta https-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Dashboard</title>
+
+        <!-- ================= Favicon ================== -->
+	{% load static %}
+        <!-- Standard -->
+	<link rel="shortcut icon" href="{% static 'login/images/icons/favicon.ico' %}">
+        <!-- /etina iPad Touch Icon-->
+	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'login/images/icons/favicon.ico' %}">
+        <!-- Retina iPhone Touch Icon-->
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'login/images/icons/favicon.ico' %}">
+        <!-- Standard iPad Touch Icon-->
+	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'login/images/icons/favicon.ico' %}">
+        <!-- Standard iPhone Touch Icon-->
+	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'login/images/icons/favicon.ico' %}">
+
+        <!-- Styles -->
+	<link href="{% static 'customers/assets/css/lib/weather-icons.css' %}" rel="stylesheet" />
+	<link href="{% static 'customers/assets/css/lib/owl.carousel.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'customers/assets/css/lib/owl.theme.default.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'customers/assets/css/lib/font-awesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'customers/assets/css/lib/themify-icons.css' %} " rel="stylesheet">
+	<link href="{% static 'customers/assets/css/lib/menubar/sidebar.css' %} " rel="stylesheet">
+	<link href="{% static 'customers/assets/css/lib/bootstrap.min.css' %} " rel="stylesheet">
+
+	<link href="{% static 'customers/assets/css/lib/helper.css' %} " rel="stylesheet" />
+	<link href="{% static 'customers/assets/css/style.css' %}" rel="stylesheet" />
+
+	<!-- Select 2 -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'customers/assets/css/checkout_btn.css' %}">
+    </head>
+
+
+
+
+    <body>
+
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <div class="logo"><a href="/dashboard"><!-- <img src="assets/images/logo.png" alt="" /> --><span>Dashboard</span></a></div>
+                    <ul>
+                        <li class="label">Main</li>
+			
+			<li><a class="sidebar-sub-toggle"><i class="ti-user"></i> Customers <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+				    <li><a href="{% url 'customers:customer_create' %}">Create</a></li>
+				    <li><a href="{% url 'customers:customers' %}">View</a></li>
+                            </ul>
+			</li>
+
+
+                        <!--<li class="label">People</li>
+			<li><a class="sidebar-sub-toggle"><i class="ti-truck"></i> Drivers <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+				    <li><a href="#">Assign Jobs</a></li>
+				    <li><a href="#">Job Status</a></li>
+				    <li><a href="#">Active Drivers</a></li>
+				    <li><a href="#">Blocked Drivers</a></li>
+                            </ul>
+			</li>-->
+
+
+
+                        <li class="label">Apps</li>
+                        <li><a class="sidebar-sub-toggle"><i class="ti-package"></i> Orders <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+                                <li><a href="#">Pending</a></li>
+				<li><a href="#">Dispatched</a></li>
+				<li><a href="#">Accepted</a></li>
+				<li><a href="#">Completed</a></li>
+                            </ul>
+                        </li>
+
+
+			<li><a class="sidebar-sub-toggle"><i class="ti-package"></i> Items <span class="sidebar-collapse-icon ti-angle-down"></span></a>
+                            <ul>
+				    <li><a href="#">View</a></li>
+				    <li><a href="#">Create</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="label">Features</li>
+			<li><a href='{% url "logout" %}'><i class="ti-close"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /# sidebar -->
+
+
+        <div class="header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="float-left">
+                            <div class="hamburger sidebar-toggle">
+                                <span class="line"></span>
+                                <span class="line"></span>
+                                <span class="line"></span>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <ul>
+
+				    <li class="header-icon dib"><i class="ti-bell"></i> {{ order_count }} 
+                                    <div class="drop-down">
+                                        <div class="dropdown-content-heading">
+                                            <span class="text-left">Recent Notifications</span>
+                                        </div>
+                                        <div class="dropdown-content-body">
+                                            <ul></ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="header-icon dib"><i class="ti-email"></i>
+                                    <div class="drop-down">
+                                        <div class="dropdown-content-heading">
+                                            <span class="text-left">2 New Messages</span>
+                                            <a href="#"><i class="ti-pencil-alt pull-right"></i></a>
+                                        </div>
+                                        <div class="dropdown-content-body">
+                                            <!--<ul>
+                                                <li class="notification-unread">
+                                                    <a href="#">
+                                                <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
+                                                <div class="notification-content">
+                                                    <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                    <div class="notification-heading">Michael Qin</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                                </li>
+                                                <li class="notification-unread">
+                                                    <a href="#">
+                                                <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
+                                                <div class="notification-content">
+                                                    <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                    <div class="notification-heading">Mr. John</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
+                                                <div class="notification-content">
+                                                    <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                    <div class="notification-heading">Michael Qin</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                <img class="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
+                                                <div class="notification-content">
+                                                    <small class="notification-timestamp pull-right">02:34 PM</small>
+                                                    <div class="notification-heading">Mr. John</div>
+                                                    <div class="notification-text">Hi Teddy, Just wanted to let you ...</div>
+                                                </div>
+                                            </a>
+                                                </li>
+                                                <li class="text-center">
+                                                    <a href="#" class="more-link">See All</a>
+                                                </li>
+					    </ul> -->
+                                        </div>
+                                    </div>
+                                </li>
+				<li class="header-icon dib"><span class="user-avatar">{{ user }}<i class="ti-angle-down f-s-10"></i></span>
+                                    <div class="drop-down dropdown-profile">
+                                        <div class="dropdown-content-heading">
+                                            <span class="text-left">360 Eco Wash Admin</span>
+                                        </div>
+                                        <div class="dropdown-content-body">
+                                            <ul>
+
+                                                <li><a href="#"><i class="ti-user"></i> <span>Customers</span></a></li>
+                                                <li><a href="#"><i class="ti-truck"></i> <span>Drivers</span></a></li>
+
+						<li><a href="{% url "logout" %}"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+	{% block content %}{% endblock content %}
+
+
+
+
+
+
+        <!-- jquery vendor -->
+	<script src="{% static 'customers/assets/js/jquery-3.2.1.min.js' %}"</script>
+	<script src="{% static 'customers/assets/js/validation/jquery.validate.min.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/jquery.nanoscroller.min.js' %}"></script>
+
+
+
+
+        <!-- nano scroller -->
+	
+	<script src="{% static 'customers/assets/js/lib/menubar/sidebar.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/preloader/pace.min.js' %}"></script>
+        <!-- sidebar -->
+	<script src="{% static 'customers/assets/js/lib/bootstrap.min.js' %}"></script>
+        
+	
+	
+	<!-- bootstrap -->
+
+	<script src="{% static 'customers/assets/js/lib/circle-progress/circle-progress.min.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/circle-progress/circle-progress-init.js' %}"></script>
+
+	<script src="{% static 'customers/assets/js/lib/morris-chart/raphael-min.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/morris-chart/morris.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/morris-chart/morris-init.js' %}"></script>
+
+        <!--  flot-chart -->
+	<script src="{% static 'customers/assets/js/lib/flot-chart/jquery.flot.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/flot-chart/jquery.flot.resize.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/flot-chart/flot-chart-init.js' %}"></script>
+        <!-- // flot-chart js -->
+
+
+	<script src="{% static 'customers/assets/js/lib/vector-map/jquery.vmap.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/jquery.vmap.min.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/jquery.vmap.sampledata.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.world.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.algeria.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.argentina.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.brazil.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.france.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.germany.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.greece.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.iran.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.iraq.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.russia.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.tunisia.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.europe.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/country/jquery.vmap.usa.js' %}"></script>
+        <!-- scripit init-->
+	<script src="{% static 'customers/assets/js/lib/vector-map/vector.init.js' %}"></script>
+
+	<script src="{% static 'customers/assets/js/lib/weather/jquery.simpleWeather.min.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/weather/weather-init.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/owl-carousel/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'customers/assets/js/lib/owl-carousel/owl.carousel-init.js' %}"></script>
+	<script src="{% static 'customers/assets/js/scripts.js' %}"></script>
+        <!-- scripit init-->
+
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+	<script>
+
+			$(document).ready( function () {
+			    $('#myTable').DataTable();
+			});
+	</script>
+
+
+	{% block javascript %}
+	{% endblock %}
+    </body>
+
+</html>

@@ -1,10 +1,114 @@
 {% extends 'customers/base.html' %}
 
+{% load crispy_forms_tags  %}
 {% block content %}
-<code> Customer </code> <br>
-<form method='post'>
-{% csrf_token %}
-	{{ form.as_p}}
-	<input type='submit' value='Save' />
-</form>	
+<div class="content-wrap">
+	<div class='main'>
+		<div class='containera-fluid'>
+			<section id='main-content'>
+				<div class='card'>
+
+
+					<div class='card-title'>
+						Orders
+					</div>
+					<div class='card-body'>	
+
+						<div id='email_exist'> </div>
+
+						<form method='post'>
+						{% csrf_token %}
+
+							{{ form | crispy }}
+
+							<p><input type='submit' value='Save' class='btn btn-success'></p>
+						</form>	
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
 {% endblock content %}
+
+{% block javascript %}
+<script>
+
+$('#item').on('change', function() {
+
+	var item_id = $('#item').val()
+	var qty = $('#qty').val()
+	var shipping_fee = $('#shipping_fee').val()
+
+	$.ajax({
+		url: '/item/price',
+		data: 
+		{
+			'item_id' : item_id,
+			'qty' : qty,
+			'shipping_fee' : shipping_fee,
+		},
+		success: function(data) {
+
+			$('#total_price').val(data)
+		}
+	})
+
+})
+
+$('#qty').on('input', function() {
+
+	var item_id = $('#item').val()
+	var qty = $(this).val()
+	var shipping_fee = $('#shipping_fee').val()
+
+	$.ajax({
+		url: '/item/price',
+		data: 
+		{
+			'item_id' : item_id,
+			'qty' : qty,
+			'shipping_fee' : shipping_fee,
+		},
+		success: function(data) {
+
+			console.log(data)
+			$('#total_price').val(data)
+				
+		}
+	})
+
+
+})
+
+$('#shipping_fee').on('input', function() {
+
+
+	var item_id = $('#item').val()
+	var qty = $('#qty').val()
+	var shipping_fee = $('#shipping_fee').val()
+	
+	$.ajax({
+		url: '/item/price',
+		data: 
+		{
+			'item_id' : item_id,
+			'qty' : qty,
+			'shipping_fee' : shipping_fee,
+		},
+		success: function(data) {
+			console.log(data)
+			$('#total_price').val(data)
+				
+		}
+	})
+
+
+})
+
+
+</script>
+{% endblock %}

@@ -1,10 +1,50 @@
 {% extends 'customers/base.html' %}
 
+{% load crispy_forms_tags  %}
 {% block content %}
-<code> Customer </code> <br>
-<form method='post'>
-{% csrf_token %}
-	{{ form.as_p}}
-	<input type='submit' value='Save' />
-</form>	
+<div class="content-wrap">
+	<div class='main'>
+		<div class='containera-fluid'>
+			<section id='main-content'>
+				<div class='card'>
+
+
+					<div class='card-title'>
+						Update Customer
+					</div>
+					<div class='card-body'>	
+
+						<div id='email_exist'> </div>
+
+						<form method='post'>
+						{% csrf_token %}
+
+							{{ form | crispy }}
+
+							<p><input type='submit' value='Save' class='btn btn-success'></p>
+						</form>	
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
 {% endblock content %}
+
+{% block javascript %}
+<script>
+/*$('#generate_password').on('click', function() {
+
+	$.ajax({
+		url : '/dashboard/users/create/generate_password/',
+		success: function(password) {
+			
+			$('#password').val(password)
+		}
+	})
+
+});*/</script>
+{% endblock %}

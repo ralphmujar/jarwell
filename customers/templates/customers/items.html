@@ -1,13 +1,68 @@
 {% extends 'customers/base.html' %}
 
 {% block content %}
-<ul>
-{% for item in items %}
-<li>
-	<code>
-	{{item.name | title }}  {{ item.size }} {{ item.price }} 
-	</code>
-</li>
-{% endfor %}
-</ul>
+<div class="content-wrap">
+	<div class='main'>
+	    <div class="page-header">
+		<div class="page-title">
+			<h1> Customers </h1>
+		</div>
+	    </div>
+
+		<div class='containera-fluid'>
+			<section id='main-content'>
+
+				<div class='card'>
+					<div class='card-body'>
+						<div class='table-responsive'>
+
+							<p>
+							<a href='{% url "customers:item_create" %}'>
+							<input type='button' id='checkout_btn' value='Create New Item' />
+							</a>
+							</p>
+
+							<table class='table table-hover' id='myTable'>
+								<thead>
+									<tr>
+										<th>Item Name</th>
+										<th>Sizes</th>
+										<th>Price</th>
+										<th></th>
+
+									</tr>	
+								</thead>
+								<tbody> 
+									{% for item in items %}
+									<tr>
+										<td>{{ item.name | title }}</td>
+										<td>{{ item.size | title }}</td>
+										<td> PHP {{ item.price }}</td>
+										<td>
+											<a href='{% url "customers:item_update" item.id %}'>
+											<i class='ti-pencil'></i>
+											</a>
+										</td>
+
+									</tr>
+									{% endfor %}
+								
+								</tbody>
+
+							</table>
+
+
+						</div>	
+					</div>
+				</div>
+
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
+
 {% endblock content %}
+
