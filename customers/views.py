@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.contrib.messages.views import SuccessMessageMixin
 
 from django.urls import reverse_lazy
 
@@ -54,11 +55,13 @@ class CustomerCreate(CreateView):
     success_url = reverse_lazy('customers:customers')
 
 @method_decorator(login_required, name='dispatch')
-class CustomerUpdate(UpdateView):
+class CustomerUpdate(SuccessMessageMixin, UpdateView):
     model = Customer
     form_class = CustomerForm
     template_name = 'customers/customer_update.html'
     success_url = reverse_lazy('customers:customers')
+    #success_url = HttpResponseRedirect(self.request.path_info)
+    success_message = 'Customer successfully saved!'
 
 
 @method_decorator(login_required, name='dispatch')

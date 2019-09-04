@@ -14,7 +14,15 @@
 
 				<div class='card'>
 					<div class='card-body'>
-						<div class='table-responsive'>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}						<div class='table-responsive'>
 
 							<p>
 							<a href='{% url "customers:customer_create" %}'>
