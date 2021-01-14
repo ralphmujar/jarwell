@@ -1,0 +1,36 @@
+{% extends 'customers/base.html' %}
+
+{% load crispy_forms_tags  %}
+{% load humanize %}
+{% block content %}
+<div class="content-wrap">
+	<div class='main'>
+		<div class='containera-fluid'>
+			<section id='main-content'>
+				<div class='card'>
+
+
+					<div class='card-title'>
+						Item Dtails
+					</div>
+					<div class='card-body'>
+						<ul>
+							<li> {{ item.name }} </a>
+							<li> {{ item.size }} </a>
+							<li> {{ item.price }} </a>
+						</ul>
+					</div>
+				</div>
+
+				<div class='card'></div>
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
+{% endblock content %}
+
+{% block javascript %}
+{% endblock %}

@@ -46,7 +46,7 @@
 									<tr>
 										<td>{{ customer.first_name | title }}</td>
 										<td>{{ customer.last_name | title }}</td>
-										<td>{{ customer.address| title }}</td>
+										<td>{{ customer.address | slice:":15" }} ...</td>
 										<td>{{ customer.contact }}</td>
 										<td>
 											<a href='{% url "customers:customer_update" customer.id %}'>

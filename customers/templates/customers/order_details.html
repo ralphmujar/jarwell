@@ -1,0 +1,67 @@
+{% extends 'customers/base.html' %}
+
+{% load crispy_forms_tags  %}
+{% load humanize %}
+{% block content %}
+<div class="content-wrap">
+	<div class='main'>
+		<div class='containera-fluid'>
+			<section id='main-content'>
+				<div class='card'>
+
+
+					<div class='card-title'>
+						Orders
+					</div>
+					<div class='card-body'>
+
+						<ul>
+							<li> <p> {{ order.customer }} </p> </li>
+							<li> <p> Ordered last: {{ order.date }} </p> </li>
+							<li> <p> <label> Shipped to: </label>  {{ order.customer.address }} </p> </li>
+							<li> <p> <label> Quantity: </label>  {{ order.total_qty }} </p> </li>
+							<li> <p> <label> Shipping fee: </label> PHP {{ order.shipping_fee }} </p> </li>
+							<li> <p> <label> Total Order Price: </label> <b> PHP {{ order.total_order | intcomma }} </b> </p> </li>
+						</li>
+
+					</div>
+				</div>
+
+				<div class='card'>
+					<div class='table-responsive'>
+					<table class='table table-hover' id='myTable'>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Qty</th>
+								<th>Price</th>
+							</tr>	
+						</thead>
+						<tbody> 
+
+					{% for orderitem in order.orderitem_set.all %}	
+							<tr>
+								<td>{{ orderitem.item }}</td>
+								<td>{{ orderitem.qty }} dozens</td>
+								<td>PHP {{ orderitem.price | intcomma }}</td>
+							</tr>
+						{% endfor %}
+						
+						</tbody>
+
+					</table>
+					</div>
+
+
+				</div>
+			</section>
+		</div>
+		<!-- / container -->
+	</div>
+	<!-- /main -->
+</div>
+<!-- /content-wrap -->
+{% endblock content %}
+
+{% block javascript %}
+{% endblock %}
