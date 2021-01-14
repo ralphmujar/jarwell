@@ -1,4 +1,6 @@
 from django.db import models
+import computed_property
+
 
 
 class Customer(models.Model):
@@ -25,7 +27,29 @@ class Item(models.Model):
 class Order(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add = True)
+    shipping_fee = models.DecimalField(max_digits=7, decimal_places=2)
+    payment_status = models.IntegerField(default=0)
+    shipping_status = models.BooleanField(default=False)
+    notes = models.TextField(default="None")
+    date = models.DateField(auto_now_add=True)
+
+    @property
+    def total_order(self):
+        order_items = OrderItem.objects.filter(order_id=self.id)
+        sum = 0
+        for order_item in order_items:
+            sum = sum + order_item.price
+        return ( sum + float(self.shipping_fee) )
+
+
+    @property
+    def total_qty(self):
+        order_items = OrderItem.objects.filter(order_id=self.id)
+        total_qty = 0
+        for order_item in order_items:
+            total_qty = (order_item.qty + total_qty)
+        return total_qty
+
 
     def __str__(self):
         return self.customer.first_name.title() +" "+self.customer.last_name.title()
@@ -35,22 +59,12 @@ class OrderItem(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     qty = models.IntegerField(default=0)
-    total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    #bulk_price = computed_property.ComputedDecimalField(max_digits=7, decimal_places=2, compute_from='price')
+
+    @property
+    def price(self):
+         return self.qty * self.item.price
+
 
     def __str__(self):
         return self.item.name +" "+ str(self.qty)
-
-
-class OrderSummary(models.Model):
-
-    order_id = models.OneToOneField(Order, on_delete=models.CASCADE)
-    shipping_fee = models.DecimalField(max_digits=7, decimal_places=2)
-    total_qty = models.IntegerField(default=0)
-    total_price = models.DecimalField(max_digits=7, decimal_places=2)
-
-    payment_status = models.IntegerField(default=0)
-    shipping_status = models.BooleanField(default=False)
-    notes = models.TextField(default="None")
-
-    def __str__(self):
-        return self.order_id.customer.first_name +" "+ str(self.total_qty) +" doz"

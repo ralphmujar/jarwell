@@ -35,7 +35,11 @@
 								<tbody> 
 									{% for item in items %}
 									<tr>
-										<td>{{ item.name | title }}</td>
+										<td>
+											<a href='{% url "customers:items_details" item.id %}'>
+											{{ item.name | title }}
+											</a>
+										</td>
 										<td>{{ item.size | title }}</td>
 										<td> PHP {{ item.price }}</td>
 										<td>

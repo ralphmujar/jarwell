@@ -28,10 +28,10 @@
 									<tr>
 										<th>Date</th>
 										<th>Customer</th>
-										<th>Item</th>
 										<th>Quantity</th>
 										<th>Shipping Fee</th>
 										<th>Total</th>
+										<th></th>
 										<th></th>
 
 									</tr>	
@@ -40,16 +40,25 @@
 									{% for order in orders %}
 									<tr>
 										<td>{{ order.date }} </td>
-										<td>{{ order.customer | title }}</td>
-										<td>{{ order.item | title }}</td>
-										<td> {{ order.qty }}</td>
+										<td>
+											<a href='{% url "customers:order_details" order.id %}'>
+											{{ order.customer | title }}
+											</a>
+										</td>
+										<td> {{ order.total_qty }}</td>
 										<td> {{ order.shipping_fee| intcomma }}</td>
-										<td> PHP {{ order.total_price | intcomma }}</td>
+										<td> PHP {{ order.total_order | intcomma }}</td>
 										<td>
 											<a href='{% url "customers:order_update" order.id %}'>
 											<i class='ti-pencil'></i>
 											</a>
 										</td>
+										<td>
+											<a href='{% url "customers:order_delete" order.id %}'>
+											<i class='ti-trash'></i>
+											</a>
+										</td>
+
 
 									</tr>
 									{% endfor %}
